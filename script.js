@@ -2,6 +2,8 @@ const menuBtn = document.getElementById("menuBtn");
 const nav = document.getElementById("nav");
 const year = document.getElementById("year");
 const cursorGlow = document.querySelector(".cursor-glow");
+const projectForm = document.getElementById("projectForm");
+const formNote = document.getElementById("formNote");
 
 year.textContent = new Date().getFullYear();
 
@@ -33,6 +35,17 @@ const observer = new IntersectionObserver((entries) => {
 }, { threshold: 0.12 });
 
 document.querySelectorAll(".reveal").forEach(el => observer.observe(el));
+
+projectForm?.addEventListener("submit", event => {
+  event.preventDefault();
+  const data = new FormData(projectForm);
+  const name = String(data.get("name") || "").trim();
+  const message = String(data.get("message") || "").trim();
+  const subject = encodeURIComponent(`New website project from ${name}`);
+  const body = encodeURIComponent(`Hi Abad,\n\nMy name is ${name}.\n\n${message}\n\nSent from abadweb.studio`);
+  window.location.href = `mailto:abaddeshmukh10@gmail.com?subject=${subject}&body=${body}`;
+  if (formNote) formNote.textContent = "Opening your email app…";
+});
 
 const heroVisual = document.querySelector(".hero-visual");
 heroVisual?.addEventListener("mousemove", e => {
