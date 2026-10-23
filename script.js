@@ -4,6 +4,8 @@ const year = document.getElementById("year");
 const cursorGlow = document.querySelector(".cursor-glow");
 const projectForm = document.getElementById("projectForm");
 const formNote = document.getElementById("formNote");
+const scrollProgress = document.getElementById("scrollProgress");
+const stickyCta = document.querySelector(".mobile-sticky-cta");
 
 year.textContent = new Date().getFullYear();
 
@@ -24,6 +26,15 @@ window.addEventListener("mousemove", e => {
   cursorGlow.style.left = `${e.clientX}px`;
   cursorGlow.style.top = `${e.clientY}px`;
 });
+
+const updateScrollUI = () => {
+  const max = document.documentElement.scrollHeight - window.innerHeight;
+  const progress = max > 0 ? (window.scrollY / max) * 100 : 0;
+  if (scrollProgress) scrollProgress.style.width = `${progress}%`;
+  if (stickyCta) stickyCta.classList.toggle("is-visible", window.scrollY > window.innerHeight * .55);
+};
+window.addEventListener("scroll", updateScrollUI, { passive: true });
+updateScrollUI();
 
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
